@@ -1,3 +1,51 @@
 NUGET
   remote: https://www.nuget.org/api/v2
     FAKE (4.57.4)
+    FakeItEasy (1.25.3)
+    FakeXrmEasy.365 (1.23)
+      FakeItEasy (>= 1.25.3)
+      Microsoft.CrmSdk.CoreAssemblies (>= 8.2)
+      Microsoft.CrmSdk.Deployment (>= 8.2)
+      Microsoft.CrmSdk.Workflow (>= 8.2)
+      Microsoft.CrmSdk.XrmTooling.CoreAssembly (>= 8.1.0.2)
+    Microsoft.CrmSdk.CoreAssemblies (8.2.0.2)
+      Microsoft.IdentityModel (>= 6.1.7600.16394) - framework: >= net35
+    Microsoft.CrmSdk.Deployment (8.2.0.2)
+      Microsoft.CrmSdk.CoreAssemblies (>= 8.2) - framework: >= net45
+    Microsoft.CrmSdk.Workflow (8.2.0.2)
+      Microsoft.CrmSdk.CoreAssemblies (>= 8.2) - framework: >= net45
+    Microsoft.CrmSdk.XrmTooling.CoreAssembly (8.2.0.4)
+      Microsoft.CrmSdk.CoreAssemblies (>= 8.2) - framework: >= net45
+      Microsoft.CrmSdk.Deployment (>= 8.2) - framework: >= net45
+      Microsoft.CrmSdk.Workflow (>= 8.2) - framework: >= net45
+      Microsoft.IdentityModel.Clients.ActiveDirectory (>= 2.22.302111727) - framework: >= net45
+    Microsoft.DotNet.PlatformAbstractions (1.1.1) - framework: netcore10
+    Microsoft.Extensions.DependencyModel (1.1.1) - framework: netcore10
+    Microsoft.IdentityModel (6.1.7600.16394) - framework: >= net35
+    Microsoft.IdentityModel.Clients.ActiveDirectory (3.13.9) - framework: >= net45
+    Microsoft.TestPlatform.ObjectModel (15.0) - framework: netcore10
+    NETStandard.Library (1.6.1) - framework: >= net452, >= netstandard11, netcore10
+    System.Threading.ThreadPool (4.3) - framework: netcore10
+    xunit (2.2)
+      xunit.assert (2.2)
+      xunit.core (2.2)
+    xunit.abstractions (2.0.1) - framework: >= net452, >= netstandard11
+      NETStandard.Library (>= 1.6) - framework: >= netstandard10
+    xunit.assert (2.2)
+      NETStandard.Library (>= 1.6) - framework: >= netstandard11
+    xunit.core (2.2)
+      xunit.extensibility.core (2.2)
+      xunit.extensibility.execution (2.2)
+    xunit.extensibility.core (2.2)
+      NETStandard.Library (>= 1.6) - framework: >= netstandard11
+      xunit.abstractions (>= 2.0.1) - framework: >= net452, >= netstandard11
+    xunit.extensibility.execution (2.2)
+      NETStandard.Library (>= 1.6) - framework: >= netstandard11
+      xunit.extensibility.core (2.2) - framework: >= net452, >= netstandard11
+    xunit.runner.console (2.2)
+    xunit.runner.visualstudio (2.2)
+      Microsoft.DotNet.PlatformAbstractions (>= 1.1) - framework: netcore10
+      Microsoft.Extensions.DependencyModel (>= 1.1) - framework: netcore10
+      Microsoft.TestPlatform.ObjectModel (>= 11.0) - framework: netcore10
+      NETStandard.Library (>= 1.6) - framework: netcore10
+      System.Threading.ThreadPool (>= 4.0.10) - framework: netcore10

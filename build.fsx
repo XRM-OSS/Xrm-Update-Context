@@ -1,9 +1,10 @@
 // include Fake libs
-#I @"tools\FAKE\tools\"
-#r @"tools\FAKE\tools\FakeLib.dll"
+#I @"packages\FAKE\tools\"
+#r @"packages\FAKE\tools\FakeLib.dll"
 
 open Fake
 open Fake.AssemblyInfoFile
+open Fake.Testing.XUnit2
 open System.IO
 
 //Project config
@@ -73,6 +74,24 @@ Target "BuildLib" (fun _ ->
         |> Log "Build-Output: "
 )
 
+Target "BuildTest" (fun _ ->
+    !! @"src\test\**\*.csproj"
+      |> MSBuildDebug testDir "Build"
+      |> Log "Build Log: "
+)
+
+Target "RunTest" (fun _ ->
+    let testFiles = !!(testDir @@ @"\**\*.Tests.dll")
+    
+    if testFiles.Includes.Length <> 0 then
+      testFiles
+        |> xUnit2 (fun test ->
+            {test with
+               ToolPath = findToolInSubPath "xunit.console.exe" (currentDirectory @@ "packages" @@ "xunit.runner.console")
+               ShadowCopy = false;
+            })
+)
+
 Target "Publish" (fun _ ->
     CreateDir libdeployDir
 
@@ -108,6 +127,8 @@ Target "PublishNuget" (fun _ ->
   ==> "BuildVersions"
   =?> ("AssemblyInfo", not isLocalBuild )
   ==> "BuildLib"
+  ==> "BuildTest"
+  ==> "RunTest"
   ==> "Publish"
   ==> "CreateNuget"
   ==> "PublishNuget"

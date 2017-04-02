@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.UpdateContext", "src\lib\Xrm.Oss.UpdateContext\Xrm.Oss.UpdateContext.csproj", "{F7E29EB3-4392-4A0A-9183-7CC0E19715A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.UnitOfWork", "src\lib\Xrm.Oss.UnitOfWork\Xrm.Oss.UnitOfWork.csproj", "{F7E29EB3-4392-4A0A-9183-7CC0E19715A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.UnitOfWork.Tests", "src\test\Xrm.Oss.UnitOfWork.Tests\Xrm.Oss.UnitOfWork.Tests.csproj", "{CCD627E8-2C3A-4CDF-936F-EC4781CB7E11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6038C10F-FA18-4585-AC93-E1D29782FC38}"
+	ProjectSection(SolutionItems) = preProject
+		build.fsx = build.fsx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,10 @@ Global
 		{F7E29EB3-4392-4A0A-9183-7CC0E19715A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7E29EB3-4392-4A0A-9183-7CC0E19715A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7E29EB3-4392-4A0A-9183-7CC0E19715A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD627E8-2C3A-4CDF-936F-EC4781CB7E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD627E8-2C3A-4CDF-936F-EC4781CB7E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD627E8-2C3A-4CDF-936F-EC4781CB7E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD627E8-2C3A-4CDF-936F-EC4781CB7E11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
