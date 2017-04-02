@@ -3,6 +3,8 @@ This is a library for updating only those fields that really changed during a tr
 
 # Requirements
 This library can be used in CRM Plugins / Workflow Activities and in code of external applications. It is distributed as source file, so you don't need to merge DLLs.
+It does not include references / dependencies to any CRM SDK, so you can just install it and choose the CRM SDK that you need yourself.
+All CRM versions from 2011 to 365 are supported, just include the one you need to your project.
 
 # Purpose
 When sending updates on entities, it is a best practice, to only include those fields in your update object, that really need to be updated.
