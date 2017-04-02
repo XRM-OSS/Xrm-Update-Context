@@ -6,6 +6,7 @@ open Fake
 open Fake.AssemblyInfoFile
 open Fake.Testing.XUnit2
 open System.IO
+open Fake.Paket
 
 //Project config
 let projectName = "Xrm.Oss.UpdateContext"
@@ -100,25 +101,11 @@ Target "Publish" (fun _ ->
 )
 
 Target "CreateNuget" (fun _ ->
-    "Xrm.Oss.UpdateContext.nuspec"
-          |> NuGet (fun p ->
+    Pack (fun p ->
             {p with
-                Authors = authors
-                Project = projectName
                 Version = nugetVersion
-                NoPackageAnalysis = true
-                Description = projectDescription
-                ToolPath = @".\tools\Nuget\Nuget.exe"
-                OutputPath = nugetDir })
-)
-
-Target "PublishNuget" (fun _ ->
-
-  let nugetPublishDir = (deployDir + "nuget")
-  CreateDir nugetPublishDir
-
-  !! (nugetDir + "*.nupkg")
-     |> Copy nugetPublishDir
+                
+            })
 )
 
 // Dependencies
@@ -131,7 +118,6 @@ Target "PublishNuget" (fun _ ->
   ==> "RunTest"
   ==> "Publish"
   ==> "CreateNuget"
-  ==> "PublishNuget"
 
 // start build
 RunTargetOrDefault "Publish"
