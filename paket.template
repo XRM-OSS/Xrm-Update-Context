@@ -1,0 +1,16 @@
+type file
+id Xrm.Oss.UpdateContext.Sources
+version 1.0
+authors Florian Krönert
+title
+    A Dynamics CRM / Dynamics365 library for easing updates on CRM records
+tags
+    Xrm Dynamics CRM 365 Update Context OrganizationService
+projectUrl
+    https://github.com/DigitalFlow/Xrm-UpdateContext
+licenseUrl
+    https://github.com/DigitalFlow/Xrm-UpdateContext/blob/master/LICENSE
+description
+    A Dynamics CRM / Dynamics365 library for easing updates on CRM records
+files
+    src\lib\Xrm.Oss.UnitOfWork\UpdateContext.cs ==> content
