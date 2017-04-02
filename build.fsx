@@ -40,16 +40,6 @@ Target "Clean" (fun _ ->
     CleanDirs [buildDir; testDir; deployDir; nugetDir]
 )
 
-Target "RestorePackages" (fun _ ->
-
-   let RestorePackages2() =
-     !! "./src/**/packages.config"
-     |> Seq.iter ( RestorePackage (fun p -> {p with Sources = ["http://go.microsoft.com/fwlink/?LinkID=206669"] } ))
-     ()
-
-   RestorePackages2()
-)
-
 Target "BuildVersions" (fun _ ->
     asmVersion      <- majorversion + "." + minorversion + "." + build
     asmInfoVersion  <- asmVersion + " - " + sha
@@ -110,7 +100,6 @@ Target "CreateNuget" (fun _ ->
 
 // Dependencies
 "Clean"
-  ==> "RestorePackages"
   ==> "BuildVersions"
   =?> ("AssemblyInfo", not isLocalBuild )
   ==> "BuildLib"

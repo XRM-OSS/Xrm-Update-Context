@@ -3,7 +3,7 @@ id Xrm.Oss.UpdateContext.Sources
 version 1.0
 authors Florian Krönert
 title
-    A Dynamics CRM / Dynamics365 library for easing updates on CRM records
+    Xrm-Update-Context
 tags
     Xrm Dynamics CRM 365 Update Context OrganizationService
 projectUrl
