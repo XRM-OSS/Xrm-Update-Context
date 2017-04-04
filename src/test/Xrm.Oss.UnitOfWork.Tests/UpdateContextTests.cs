@@ -177,5 +177,74 @@ namespace Xrm.Oss.UnitOfWork.Tests
                 A.CallTo(() => service.Update(A<Entity>._)).MustNotHaveHappened();
             }
         }
+        
+        [Fact]
+        public void Should_Update_If_Reference_Type_Value_Changed()
+        {
+            var contact = new Entity
+            {
+                LogicalName = "contact",
+                Id = Guid.NewGuid(),
+                Attributes = new AttributeCollection
+                {
+                    { "revenue", new Money(1000m) }
+                }
+            };
+
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                ((Money) contact["revenue"]).Value = 2000m;
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.Equal(new Money(2000m), update["revenue"]);
+            }
+        }
+        
+        [Fact]
+        public void Should_Update_If_Reference_Type_Changed()
+        {
+            var contact = new Entity
+            {
+                LogicalName = "contact",
+                Id = Guid.NewGuid(),
+                Attributes = new AttributeCollection
+                {
+                    { "revenue", new Money(1000m) }
+                }
+            };
+
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                contact["revenue"] = new Money(2000m);
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.Equal(new Money(2000m), update["revenue"]);
+            }
+        }
+        
+        [Fact]
+        public void Should_Not_Update_If_Reference_But_Not_Value_Changed()
+        {
+            var contact = new Entity
+            {
+                LogicalName = "contact",
+                Id = Guid.NewGuid(),
+                Attributes = new AttributeCollection
+                {
+                    { "revenue", new Money(1000m) }
+                }
+            };
+
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                contact["revenue"] = new Money(1000m);
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.Null(update);
+            }
+        }
     }
 }
