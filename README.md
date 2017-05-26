@@ -40,7 +40,7 @@ using(var updateContext = new UpdateContext<Contact>(contact))
 {
     contact.FirstName = "Bilbo";
     
-    var updateObject = updateContext.GetUpdateObject();
+    Contact updateObject = updateContext.GetUpdateObject();
     
     if (updateObject != null)
     {
@@ -69,7 +69,7 @@ using(var updateContext = new UpdateContext<Contact>(contact))
 {
     contact.FirstName = "Bilbo";
     
-    var updateRequest = updateContext.GetUpdateRequest();
+    UpdateRequest updateRequest = updateContext.GetUpdateRequest();
 }
 ```
 
