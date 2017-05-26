@@ -1,8 +1,9 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Messages;
-using System;
+﻿using System;
 using System.IO;
-using System.Runtime.Serialization.Json;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Messages;
 
 namespace Xrm.Oss.UnitOfWork
 {
@@ -13,23 +14,114 @@ namespace Xrm.Oss.UnitOfWork
         private bool _disposed;
 
         /// <summary>
+        /// Clone all attribute types defined in https://msdn.microsoft.com/de-de/library/gg328507(v=crm.6).aspx
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private object CloneAttribute(object value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            // Reference Type
+            var stringValue = value as string;
+            if (stringValue != null)
+            {
+                return new string(stringValue.ToCharArray());
+            }
+
+            // Reference Type
+            var optionSetValue = value as OptionSetValue;
+            if (optionSetValue != null)
+            {
+                return new OptionSetValue(optionSetValue.Value);
+            }
+
+            // Reference Type
+            var entityReferenceValue = value as EntityReference;
+            if (entityReferenceValue != null)
+            {
+                return new EntityReference
+                {
+                    LogicalName = CloneAttribute(entityReferenceValue.LogicalName) as string,
+                    Id = entityReferenceValue.Id,
+                    Name = CloneAttribute(entityReferenceValue.Name) as string
+                };
+            }
+
+            // Reference Type
+            var booleanManagedValue = value as BooleanManagedProperty;
+            if (booleanManagedValue != null)
+            {
+                return new BooleanManagedProperty(booleanManagedValue.Value);
+            }
+
+            // Reference Type
+            var moneyValue = value as Money;
+            if (moneyValue != null)
+            {
+                return new Money(moneyValue.Value);
+            }
+
+            // Reference Type
+            var aliasedValue = value as AliasedValue;
+            if (aliasedValue != null)
+            {
+                return new AliasedValue(CloneAttribute(aliasedValue.EntityLogicalName) as string, 
+                    CloneAttribute(aliasedValue.AttributeLogicalName) as string,
+                    CloneAttribute(aliasedValue.Value));
+            }
+
+            // Clone all contained records
+            var entityCollectionValue = value as EntityCollection;
+            if (entityCollectionValue != null)
+            {
+                return new EntityCollection(entityCollectionValue.Entities.Select(CloneEntity).ToList());
+            }
+
+            var valueTypes = new List<Type>
+            {
+                typeof(long), typeof(bool), typeof(DateTime),
+                typeof(decimal), typeof(double), typeof(int),
+                typeof(Guid), typeof(float), typeof(byte), typeof(Enum)
+            };
+
+            var type = value.GetType();
+
+            if (valueTypes.Contains(type))
+            {
+                return value;
+            }
+
+            throw new InvalidDataException("Attribute of type '" + type.Name + "' is not supported yet. Please file an issue on GitHub: https://github.com/DigitalFlow/Xrm-Update-Context");
+        }
+
+        /// <summary>
         /// Clones entity that is passed in by serializing and deserializing using JSON
         /// </summary>
         /// <param name="entity">Entity to clone</param>
         /// <returns>Deep Copied clone of passed in entity</returns>
-        private T CloneEntity(T entity)
+        private Entity CloneEntity(Entity entity)
         {
-            var serializer = new DataContractJsonSerializer(typeof(T));
-
-            using (var memoryStream = new MemoryStream())
+            if (entity == null)
             {
-                serializer.WriteObject(memoryStream, entity);
-
-                // Reset stream position before reading again
-                memoryStream.Position = 0;
-
-                return (T) serializer.ReadObject(memoryStream);
+                return null;
             }
+
+            var clone = new Entity
+            {
+                Id = entity.Id,
+                LogicalName = entity.LogicalName
+            };
+
+            foreach (var attribute in entity.Attributes)
+            {
+                clone[attribute.Key] = CloneAttribute(attribute.Value);
+            }
+
+            return clone;
         }
 
         /// <summary>
@@ -37,8 +129,13 @@ namespace Xrm.Oss.UnitOfWork
         /// </summary>
         /// <param name="entity">Entity to track changes for</param>
         public UpdateContext(T entity) {
+            if (entity == null)
+            {
+                throw new InvalidOperationException("You must initialize the context using a valid entity, but was null");
+            }
+
             _workingState = entity;
-            _initialState = CloneEntity(entity);
+            _initialState = CloneEntity(entity).ToEntity<T>();
         }
 
         /// <summary>

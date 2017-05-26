@@ -2,6 +2,7 @@
 using FakeXrmEasy;
 using Microsoft.Xrm.Sdk;
 using System;
+using System.IO;
 using Xunit;
 
 namespace Xrm.Oss.UnitOfWork.Tests
@@ -43,7 +44,7 @@ namespace Xrm.Oss.UnitOfWork.Tests
 
                 var update = updateContext.GetUpdateObject();
 
-                Assert.Equal("Frodo", update["firstname"]);
+                Assert.True(update.Contains("firstname"));
             }
         }
 
@@ -245,6 +246,28 @@ namespace Xrm.Oss.UnitOfWork.Tests
 
                 Assert.Null(update);
             }
+        }
+
+        [Fact]
+        public void Should_Throw_Invalid_Operation_Exception_On_Initialization_With_Null()
+        {
+            Assert.Throws<InvalidOperationException>(() => new UpdateContext<Entity>(null));
+        }
+
+        [Fact]
+        public void Should_Throw_Exception_While_Cloning_Unknown_Type()
+        {
+            var contact = new Entity
+            {
+                LogicalName = "contact",
+                Id = Guid.NewGuid(),
+                Attributes = new AttributeCollection
+                {
+                    { "fooBar", new OrganizationRequest() }
+                }
+            };
+            
+            Assert.Throws<InvalidDataException>(() => new UpdateContext<Entity>(contact));
         }
     }
 }

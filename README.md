@@ -74,7 +74,7 @@ using(var updateContext = new UpdateContext<Contact>(contact))
 ```
 
 # How does it work?
-Upon initialization, the object you pass in gets deep copied using serialization with a DataContractJsonSerializer and deserialization to a cloned object afterwards.
+Upon initialization, the entity you passed in gets deep copied internally.
 On each call to get or send updates, the cloned object is compared to the working object that is still referenced and an update object is built, which only contains the properties that were updated in the working object.
 
 # How to build it
