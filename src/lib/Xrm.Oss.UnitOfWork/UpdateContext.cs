@@ -172,7 +172,8 @@ namespace Xrm.Oss.UnitOfWork
                 return null;
             }
 
-            return update.ToEntity<T>();
+            // Return "snapshot" of update object to not include updates that occured on working state after update was generated
+            return CloneEntity(update).ToEntity<T>();
         }
 
         /// <summary>

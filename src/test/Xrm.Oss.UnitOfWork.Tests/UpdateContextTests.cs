@@ -269,5 +269,42 @@ namespace Xrm.Oss.UnitOfWork.Tests
             
             Assert.Throws<InvalidDataException>(() => new UpdateContext<Entity>(contact));
         }
+
+        [Fact]
+        public void Update_Objects_Not_Be_Changed_By_Later_Updates_To_Original_Object()
+        {
+            var opportunity = new Entity
+            {
+                LogicalName = "opportunity",
+                Id = Guid.NewGuid(),
+                Attributes = new AttributeCollection
+                {
+                    { "activestageid", new Guid("28595D66-C790-4DD9-B06C-C6CE9BA08A6A") },
+                    { "oss_testoptionset", new OptionSetValue(0) }
+                }
+            };
+
+            var firstUpdateId = new Guid("39595D66-C790-4DD9-B06C-C6CE9BA08A6A");
+            var secondUpdateId = new Guid("40595D66-C790-4DD9-B06C-C6CE9BA08A6A");
+            var firstOptionValue = 1;
+            var secondOptionValue = 2;
+
+            using (var updateContext = new UpdateContext<Entity>(opportunity))
+            {
+                opportunity["activestageid"] = firstUpdateId;
+                ((OptionSetValue)opportunity["oss_testoptionset"]).Value = firstOptionValue;
+                var nextStageUpdate = updateContext.GetUpdateObject();
+
+                opportunity["activestageid"] = secondUpdateId;
+                ((OptionSetValue)opportunity["oss_testoptionset"]).Value = secondOptionValue;
+                var stageAfterNextUpdate = updateContext.GetUpdateObject();
+
+                Assert.Equal(firstUpdateId, nextStageUpdate["activestageid"]);
+                Assert.Equal(firstOptionValue, nextStageUpdate.GetAttributeValue<OptionSetValue>("oss_testoptionset").Value);
+
+                Assert.Equal(secondUpdateId, stageAfterNextUpdate["activestageid"]);
+                Assert.Equal(secondOptionValue, stageAfterNextUpdate.GetAttributeValue<OptionSetValue>("oss_testoptionset").Value);
+            }
+        }
     }
 }
