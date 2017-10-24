@@ -213,6 +213,24 @@ namespace Xrm.Oss.UnitOfWork
             return null;
         }
 
+        public bool AddToExecuteMultiple(ExecuteMultipleRequest executeMultiple)
+        {
+            if (executeMultiple.Requests == null)
+            {
+                executeMultiple.Requests = new OrganizationRequestCollection();
+            }
+
+            var updateRequest = GetUpdateRequest();
+
+            if (updateRequest == null)
+            {
+                return false;
+            }
+
+            executeMultiple.Requests.Add(updateRequest);
+            return true;
+        }
+
         public void Dispose()
         {
             Dispose(true);
