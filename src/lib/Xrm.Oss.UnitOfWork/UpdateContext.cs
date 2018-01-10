@@ -158,6 +158,13 @@ namespace Xrm.Oss.UnitOfWork
                 // Handle newly added attributes
                 if (!_initialState.Attributes.ContainsKey(key))
                 {
+                    // Null valued attributes will not be set in records retrieved using the IOrganizationService
+                    // Therefore if attributes are not in the initial state and set null, this should be treated as noop
+                    if( value == null )
+                    {
+                        continue;
+                    }
+                    
                     update[key] = value;
                 }
                 // Handle changed attributes
