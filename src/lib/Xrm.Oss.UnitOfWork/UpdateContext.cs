@@ -160,7 +160,9 @@ namespace Xrm.Oss.UnitOfWork
                 {
                     // Null valued attributes will not be set in records retrieved using the IOrganizationService
                     // Therefore if attributes are not in the initial state and set null, this should be treated as noop
-                    if( value == null )
+                    // When a string is cleared on a form, the plugin target will not contain a null value for the attribute, but an empty string. 
+                    // As the as operator will return null if the object is not a string, this covers all scenarios
+                    if( string.IsNullOrEmpty(value as string))
                     {
                         continue;
                     }
