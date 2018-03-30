@@ -2,6 +2,7 @@
 |Line Coverage|Branch Coverage|
 |-----|-----------------|
 |[![Line coverage](https://cdn.rawgit.com/digitalflow/xrm-update-context/master/reports/badge_linecoverage.svg)](https://cdn.rawgit.com/digitalflow/xrm-update-context/master/reports/index.htm)|[![Branch coverage](https://cdn.rawgit.com/digitalflow/xrm-update-context/master/reports/badge_branchcoverage.svg)](https://cdn.rawgit.com/digitalflow/xrm-update-context/master/reports/index.htm)|
+
 This is a library for updating only those fields that really changed during a transaction in Dynamics CRM / Dynamics365.
 
 # Requirements
