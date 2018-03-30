@@ -271,6 +271,48 @@ namespace Xrm.Oss.UnitOfWork.Tests
         }
 
         [Fact]
+        public void Should_Skip_Aliased_Values_Initially()
+        {
+            var contact = new Entity
+            {
+                LogicalName = "contact",
+                Id = Guid.NewGuid(),
+                Attributes = new AttributeCollection
+                {
+                    { "parentcustomer.name", new AliasedValue("account", "name", "The Shire Corp.") }
+                }
+            };
+
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                var update = updateContext.GetUpdateObject();
+                Assert.Null(update);
+            }
+        }
+
+        [Fact]
+        public void Should_Skip_Aliased_Values_On_Update()
+        {
+            var contact = new Entity
+            {
+                LogicalName = "contact",
+                Id = Guid.NewGuid(),
+                Attributes = new AttributeCollection
+                {
+                }
+            };
+
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                contact["parentcustomer.name"] = new AliasedValue("account", "name", "The Shire Corp.");
+
+                var update = updateContext.GetUpdateObject();
+                Assert.Null(update);
+            }
+        }
+
+
+        [Fact]
         public void Update_Objects_Not_Be_Changed_By_Later_Updates_To_Original_Object()
         {
             var opportunity = new Entity

@@ -155,6 +155,12 @@ namespace Xrm.Oss.UnitOfWork
                 var key = property.Key;
                 var value = property.Value;
 
+                // We can't update aliased values, so skip them
+                if (value is AliasedValue)
+                {
+                    continue;
+                }
+
                 // Handle newly added attributes
                 if (!_initialState.Attributes.ContainsKey(key))
                 {
