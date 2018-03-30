@@ -7,6 +7,9 @@ open Fake.AssemblyInfoFile
 open Fake.Testing.XUnit2
 open System.IO
 open Fake.Paket
+open Fake.OpenCoverHelper
+open Fake.ReportGeneratorHelper
+open Fake.FileHelper
 
 //Project config
 let projectName = "Xrm.Oss.UpdateContext"
@@ -19,6 +22,7 @@ let libbuildDir = buildDir + @"lib\"
 
 let testDir   = @".\test\"
 
+let xUnitPath = "packages" @@ "xunit.runner.console" @@ "tools" @@ "xunit.console.exe"
 let deployDir = @".\Publish\"
 let libdeployDir = deployDir + @"lib\"
 let nugetDir = @".\nuget\"
@@ -83,6 +87,27 @@ Target "RunTest" (fun _ ->
             })
 )
 
+Target "CodeCoverage" (fun _ ->
+    OpenCover (fun p -> { p with 
+                                TestRunnerExePath = xUnitPath
+                                ExePath ="packages" @@ "OpenCover" @@ "tools" @@ "OpenCover.Console.exe"
+                                Register = RegisterType.RegisterUser
+                                WorkingDir = (testDir)
+                                Filter = "+[Xrm.Oss*]* -[*.Tests*]*"
+                                Output = "../coverage.xml"
+                        }) "Xrm.Oss.UnitOfWork.Tests.dll"
+)
+
+Target "ReportCodeCoverage" (fun _ ->
+    ReportGenerator (fun p -> { p with 
+                                    ExePath = "packages" @@ "ReportGenerator" @@ "tools" @@ "ReportGenerator.exe"
+                                    WorkingDir = (testDir)
+                                    TargetDir = "../reports"
+                                    ReportTypes = [ReportGeneratorReportType.Html; ReportGeneratorReportType.Badges ]
+                               }) [ "..\coverage.xml" ]
+    
+)
+
 Target "Publish" (fun _ ->
     CreateDir libdeployDir
 
@@ -105,6 +130,8 @@ Target "CreateNuget" (fun _ ->
   ==> "BuildLib"
   ==> "BuildTest"
   ==> "RunTest"
+  ==> "CodeCoverage"
+  ==> "ReportCodeCoverage"
   ==> "Publish"
   ==> "CreateNuget"
 

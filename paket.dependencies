@@ -3,6 +3,8 @@ nuget FAKE
 nuget FakeItEasy 1.25.3
 nuget FakeXrmEasy.365
 nuget Microsoft.CrmSdk.CoreAssemblies
+nuget OpenCover
+nuget ReportGenerator
 nuget Xunit
 nuget xunit.runner.console
 nuget xunit.runner.visualstudio

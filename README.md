@@ -1,4 +1,7 @@
-# XRM Update Context
+# XRM Update Context [![Build status](https://ci.appveyor.com/api/projects/status/bs2xbv46i34dsw8c?svg=true)](https://ci.appveyor.com/project/DigitalFlow/xrm-update-context) [![NuGet Badge](https://buildstats.info/nuget/Xrm.Oss.UpdateContext.Sources)](https://www.nuget.org/packages/Xrm.Oss.UpdateContext.Sources)
+|Line Coverage|Branch Coverage|
+|-----|-----------------|
+|[![Line coverage](https://cdn.rawgit.com/digitalflow/xrm-update-context/master/reports/badge_linecoverage.svg)](https://cdn.rawgit.com/digitalflow/xrm-update-context/master/reports/index.htm)|[![Branch coverage](https://cdn.rawgit.com/digitalflow/xrm-update-context/master/reports/badge_branchcoverage.svg)](https://cdn.rawgit.com/digitalflow/xrm-update-context/master/reports/index.htm)|
 This is a library for updating only those fields that really changed during a transaction in Dynamics CRM / Dynamics365.
 
 # Requirements
@@ -28,8 +31,6 @@ This can get messy and is somewhat verbose. You could also use the CrmContext / 
 
 # NuGet
 This library is available as Nuget Package. It is distributed as source file, so you can use it in Plugins and Workflow Activities without having to merge DLLs.
-
-[![NuGet Badge](https://buildstats.info/nuget/Xrm.Oss.UpdateContext.Sources)](https://www.nuget.org/packages/Xrm.Oss.UpdateContext.Sources)
 
 # Usage
 ## Getting update objects
@@ -83,6 +84,3 @@ If you want to build this library yourself, just call
 ```PowerShell
 .\build.cmd
 ```
-
-# Build Status
-[![Build status](https://ci.appveyor.com/api/projects/status/bs2xbv46i34dsw8c?svg=true)](https://ci.appveyor.com/project/DigitalFlow/xrm-update-context)
