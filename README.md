@@ -30,6 +30,9 @@ service.Update(updateRecord);
 
 This can get messy and is somewhat verbose. You could also use the CrmContext / OrganizationServiceContext if you're programming early-bound, but this library aims to work early- and late-bound, as well as being lightweight.
 
+# Remarks
+- For being able to really only update changed fields and prevent update loops, all fields that are going to be updated should be set in the initial state. So if you're retrieving data for updates, you should at least include all columns that you are going to update. This becomes especially relevant when setting fields to null: If a field was not added to the initial state and is set null, this is handled as noop and no update is sent.
+
 # NuGet
 This library is available as Nuget Package. It is distributed as source file, so you can use it in Plugins and Workflow Activities without having to merge DLLs.
 
