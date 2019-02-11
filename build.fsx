@@ -29,9 +29,9 @@ let nugetDir = @".\nuget\"
 let packagesDir = @".\packages\"
 
 // version info
-let mutable majorversion    = "1"
-let mutable minorversion    = "0"
-let mutable build           = buildVersion
+let majorversion    = "1"
+let minorversion    = "1"
+let build           = "0"
 let mutable nugetVersion    = ""
 let mutable asmVersion      = ""
 let mutable asmInfoVersion  = ""
