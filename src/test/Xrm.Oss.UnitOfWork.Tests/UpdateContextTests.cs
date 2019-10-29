@@ -49,6 +49,25 @@ namespace Xrm.Oss.UnitOfWork.Tests
         }
 
         [Fact]
+        public void Non_Generic_Class_Should_Fall_Back_To_Plain_Entity()
+        {
+            var contact = new Entity
+            {
+                LogicalName = "contact",
+                Id = Guid.NewGuid()
+            };
+
+            using (var updateContext = new UpdateContext(contact))
+            {
+                contact["firstname"] = "Frodo";
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("firstname"));
+            }
+        }
+
+        [Fact]
         public void Should_Not_Add_Unchanged_Attributes()
         {
             var contact = new Entity

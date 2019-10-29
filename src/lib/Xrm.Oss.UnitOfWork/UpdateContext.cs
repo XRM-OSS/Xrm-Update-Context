@@ -7,6 +7,11 @@ using Microsoft.Xrm.Sdk.Messages;
 
 namespace Xrm.Oss.UnitOfWork
 {
+    public partial class UpdateContext : UpdateContext<Entity>
+    {
+        public UpdateContext(Entity entity) : base(entity) { }
+    }
+
     public partial class UpdateContext<T> : IDisposable where T : Entity
     {
         private T _initialState;
