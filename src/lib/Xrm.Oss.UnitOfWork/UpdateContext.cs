@@ -86,6 +86,12 @@ namespace Xrm.Oss.UnitOfWork
                 return new EntityCollection(entityCollectionValue.Entities.Select(CloneEntity).ToList());
             }
 
+            var optionSetValueCollection = value as OptionSetValueCollection;
+            if (optionSetValueCollection != null)
+            {
+                return new OptionSetValueCollection(optionSetValueCollection.Select(o => new OptionSetValue(o.Value)).ToList());
+            }
+
             var valueTypes = new List<Type>
             {
                 typeof(long), typeof(bool), typeof(DateTime),
