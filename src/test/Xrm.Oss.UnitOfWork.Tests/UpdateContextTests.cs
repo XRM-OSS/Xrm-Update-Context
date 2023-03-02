@@ -2,7 +2,9 @@
 using FakeXrmEasy;
 using Microsoft.Xrm.Sdk;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Windows.Documents;
 using Xunit;
 
 namespace Xrm.Oss.UnitOfWork.Tests
@@ -45,6 +47,138 @@ namespace Xrm.Oss.UnitOfWork.Tests
                 var update = updateContext.GetUpdateObject();
 
                 Assert.True(update.Contains("firstname"));
+            }
+        }
+
+        [Fact]
+        public void Should_Support_OptionSetValueCollection_Property()
+        {
+            var contact = new Entity
+            {
+                LogicalName = "contact",
+                Id = Guid.NewGuid()
+            };
+
+            // Check if added
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                contact["languagecodes"] = new OptionSetValueCollection(new List<OptionSetValue> { new OptionSetValue(1)});
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("languagecodes"));
+            }
+
+            // Check if changed
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                contact["languagecodes"] = new OptionSetValueCollection(new List<OptionSetValue> { new OptionSetValue(2) });
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("languagecodes"));
+            }
+
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                contact.GetAttributeValue<OptionSetValueCollection>("languagecodes")[0].Value = 3;
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("languagecodes"));
+            }
+
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                contact.GetAttributeValue<OptionSetValueCollection>("languagecodes").Add(new OptionSetValue(4));
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("languagecodes"));
+            }
+
+            // Check if removed
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                contact["languagecodes"] = null;
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("languagecodes"));
+            }
+
+            // Check if unchanged
+            using (var updateContext = new UpdateContext<Entity>(contact))
+            {
+                var update = updateContext.GetUpdateObject();
+
+                Assert.Null(update);
+            }
+        }
+
+        [Fact]
+        public void Should_Support_EntityCollection_Property()
+        {
+            var email = new Entity
+            {
+                LogicalName = "email",
+                Id = Guid.NewGuid()
+            };
+
+            // Check if added
+            using (var updateContext = new UpdateContext<Entity>(email))
+            {
+                email["to"] = new EntityCollection(new List<Entity> { new Entity { LogicalName = "activityparty", Id = Guid.NewGuid() } });
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("to"));
+            }
+
+            // Check if changed
+            using (var updateContext = new UpdateContext<Entity>(email))
+            {
+                email["to"] = new EntityCollection(new List<Entity> { new Entity { LogicalName = "activityparty", Id = Guid.NewGuid() } });
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("to"));
+            }
+
+            using (var updateContext = new UpdateContext<Entity>(email))
+            {
+                email.GetAttributeValue<EntityCollection>("to").Entities[0].Id = Guid.NewGuid();
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("to"));
+            }
+
+            using (var updateContext = new UpdateContext<Entity>(email))
+            {
+                email.GetAttributeValue<EntityCollection>("to").Entities.Add(new Entity { LogicalName = "activityparty", Id = Guid.NewGuid() });
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("to"));
+            }
+
+            // Check if removed
+            using (var updateContext = new UpdateContext<Entity>(email))
+            {
+                email["to"] = null;
+
+                var update = updateContext.GetUpdateObject();
+
+                Assert.True(update.Contains("to"));
+            }
+
+            // Check if unchanged
+            using (var updateContext = new UpdateContext<Entity>(email))
+            {
+                var update = updateContext.GetUpdateObject();
+
+                Assert.Null(update);
             }
         }
 

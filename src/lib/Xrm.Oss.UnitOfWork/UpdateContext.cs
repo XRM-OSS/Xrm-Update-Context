@@ -188,6 +188,18 @@ namespace Xrm.Oss.UnitOfWork
                 // Handle changed attributes
                 else if (!object.Equals(_initialState[key], _workingState[key]))
                 {
+                    // Handle OptionSetValueCollections differently since they don't compare correctly by default
+                    if (_initialState[key] is OptionSetValueCollection && _workingState[key] is OptionSetValueCollection)
+                    {
+                        var initialValues = new HashSet<int>((_initialState[key] as OptionSetValueCollection).Select(v => v.Value));
+                        var updatedValues = new HashSet<int>((_workingState[key] as OptionSetValueCollection).Select(v => v.Value));
+
+                        if (initialValues.SetEquals(updatedValues))
+                        {
+                            continue;
+                        }
+                    }
+
                     update[key] = value;
                 }
             }
