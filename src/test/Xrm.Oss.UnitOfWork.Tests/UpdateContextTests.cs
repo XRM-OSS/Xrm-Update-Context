@@ -305,7 +305,7 @@ namespace Xrm.Oss.UnitOfWork.Tests
                 var updateSent = updateContext.Update(service);
 
                 Assert.True(updateSent);
-                A.CallTo(() => service.Update(A<Entity>._)).MustHaveHappened(Repeated.Exactly.Once);
+                A.CallTo(() => service.Update(A<Entity>._)).MustHaveHappened(1, Times.Exactly);
             }
         }
 

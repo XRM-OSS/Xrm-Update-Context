@@ -1,7 +1,6 @@
 source https://www.nuget.org/api/v2
-nuget FAKE
-nuget FakeItEasy 1.25.3
-nuget FakeXrmEasy.365
+nuget FAKE ~> 4
+nuget FakeXrmEasy.9
 nuget Microsoft.CrmSdk.CoreAssemblies
 nuget OpenCover
 nuget ReportGenerator
