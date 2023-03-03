@@ -4,7 +4,6 @@ using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Documents;
 using Xunit;
 
 namespace Xrm.Oss.UnitOfWork.Tests
