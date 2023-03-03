@@ -23,6 +23,7 @@ let libbuildDir = buildDir + @"lib\"
 let testDir   = @".\test\"
 
 let xUnitPath = "packages" @@ "xunit.runner.console" @@ "tools" @@ "net462" @@ "xunit.console.exe"
+let reportGeneratorPath = "packages" @@ "ReportGenerator" @@ "tools" @@ "net6.0" @@ "ReportGenerator.exe"
 let deployDir = @".\Publish\"
 let libdeployDir = deployDir + @"lib\"
 let nugetDir = @".\nuget\"
@@ -100,7 +101,7 @@ Target "CodeCoverage" (fun _ ->
 
 Target "ReportCodeCoverage" (fun _ ->
     ReportGenerator (fun p -> { p with 
-                                    ExePath = "packages" @@ "ReportGenerator" @@ "tools" @@ "ReportGenerator.exe"
+                                    ExePath = reportGeneratorPath
                                     WorkingDir = (testDir)
                                     TargetDir = "../reports"
                                     ReportTypes = [ReportGeneratorReportType.Html; ReportGeneratorReportType.Badges ]
