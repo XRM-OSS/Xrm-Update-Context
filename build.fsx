@@ -22,7 +22,7 @@ let libbuildDir = buildDir + @"lib\"
 
 let testDir   = @".\test\"
 
-let xUnitPath = "packages" @@ "xunit.runner.console" @@ "tools" @@ "xunit.console.exe"
+let xUnitPath = "packages" @@ "xunit.runner.console" @@ "tools" @@ "net462" @@ "xunit.console.exe"
 let deployDir = @".\Publish\"
 let libdeployDir = deployDir + @"lib\"
 let nugetDir = @".\nuget\"
