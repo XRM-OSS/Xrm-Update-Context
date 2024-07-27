@@ -13,5 +13,5 @@ licenseUrl
 description
     A Dynamics CRM / Dynamics365 library for easing updates on CRM records
 files
-    src\lib\Xrm.Oss.UnitOfWork\UpdateContext.cs ==> contentFiles\cs\net452\lib
+    src\lib\Xrm.Oss.UnitOfWork\UpdateContext.cs ==> contentFiles/cs/any/lib
     src\lib\Xrm.Oss.UnitOfWork\UpdateContext.cs ==> content
